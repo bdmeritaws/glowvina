@@ -9,8 +9,8 @@ import { Eye, EyeOff, Lock, Mail, ArrowRight, Loader2, Shield } from "lucide-rea
 
 export default function AdminLoginPage() {
   const [formData, setFormData] = useState({
-    email: "admin@beaulii.com",
-    password: "admin123",
+    email: "",
+    password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +58,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-gradient-to-br from-[#3b1f0f] to-[#5a2a0f] flex items-center justify-center p-4">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMtNi42MjcgMC0xMiA1LjM3My0xMiAxMnM1LjM3MyAxMiAxMiAxMiAxMi01LjM3MyAxMi0xMi0xMi01LjM3My0xMi0xMnptMC0yMmMtNS41MzQgMC0xMCA0LjQ2Ni0xMCAxMHM0LjQ2NiAxMCAxMCAxMCAxMC00LjQ2NiAxMC0xMC00LjQ2Ni0xMC0xMC0xMHoiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC41Ii8+PC9nPjwvc3ZnPg==')]"></div>
+        <div className="absolute inset-0"></div>
       </div>
 
       <div className="relative w-full max-w-md">
@@ -70,6 +70,7 @@ export default function AdminLoginPage() {
               alt="Beaulii"
               width={180}
               height={60}
+              style={{ width: 'auto', height: 'auto' }}
               className="object-contain mx-auto"
             />
           </Link>
@@ -83,19 +84,19 @@ export default function AdminLoginPage() {
         {/* Login Card */}
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email */}
+            {/* Email / Username */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
+                Email or Username
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                 <input
-                  type="email"
+                  type="text"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="admin@beaulii.com"
+                  placeholder="Enter email or username"
                   required
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5a2a0f] focus:border-transparent transition"
                 />
@@ -178,16 +179,6 @@ export default function AdminLoginPage() {
               )}
             </button>
           </form>
-
-          {/* Demo Credentials Info */}
-          <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-            <p className="text-sm text-amber-800 font-medium mb-2">Demo Credentials:</p>
-            <p className="text-xs text-amber-700">Email: admin@beaulii.com</p>
-            <p className="text-xs text-amber-700">Password: admin123</p>
-            <p className="text-xs text-amber-600 mt-2">
-              (First login will create the admin account automatically)
-            </p>
-          </div>
 
           {/* Back to Store */}
           <div className="mt-6 pt-6 border-t">

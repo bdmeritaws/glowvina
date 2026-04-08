@@ -3,8 +3,12 @@
 import { useState } from "react";
 import Image from "next/image";
 
-export default function WhatToExpect() {
+export default function WhatToExpect({ beforeImage, afterImage }) {
   const [position, setPosition] = useState(50);
+
+  // Use product images if provided, otherwise fall back to defaults
+  const beforeImg = beforeImage || "/images/whattoexpect/1.webp";
+  const afterImg = afterImage || "/images/whattoexpect/2.webp";
 
   return (
     <section className="mt-16 sm:mt-20 md:mt-24 px-4 text-center">
@@ -39,7 +43,7 @@ export default function WhatToExpect() {
         {/* AFTER IMAGE */}
         <div className="relative w-full h-[260px] sm:h-[380px] md:h-[520px]">
           <Image
-            src="/images/whattoexpect/2.webp"
+            src={afterImg}
             alt="After"
             fill
             className="object-cover"
@@ -52,7 +56,7 @@ export default function WhatToExpect() {
           style={{ width: `${position}%` }}
         >
           <Image
-            src="/images/whattoexpect/1.webp"
+            src={beforeImg}
             alt="Before"
             fill
             className="object-cover"

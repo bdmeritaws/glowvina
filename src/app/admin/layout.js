@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import AdminLayoutWrapper from "@/components/admin/AdminLayoutWrapper";
 
 export const metadata = {
   title: "Beaulii Admin Panel",
@@ -7,9 +8,14 @@ export const metadata = {
 
 export default function AdminLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="antialiased">
-        {children}
+    <html lang="en" className="overflow-x-hidden" suppressHydrationWarning>
+      <body 
+        suppressHydrationWarning
+        className="antialiased overflow-x-hidden bg-gray-50"
+      >
+        <AdminLayoutWrapper>
+          {children}
+        </AdminLayoutWrapper>
       </body>
     </html>
   );

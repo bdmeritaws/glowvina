@@ -1,21 +1,19 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import mysql from "mysql2/promise";
+import prisma from "@/lib/prisma";
 
-async function getConnection() {
-  return await mysql.createConnection({
-    host: process.env.DB_HOST || "localhost",
-    port: parseInt(process.env.DB_PORT || "3306"),
-    user: process.env.DB_USER || "root",
-    password: process.env.DB_PASSWORD || "",
-    database: process.env.DB_NAME || "beaulii",
-  });
-}
+export const dynamic = 'force-dynamic';
 
 export async function POST(request) {
-  let connection;
+  let prismaClient = null;
   
   try {
+    // Ensure prisma is initialized
+    prismaClient = prisma;
+    
+    // Test database connection first
+    await prismaClient.$connect();
+    
     const { email, password } = await request.json();
 
     // Validate input
@@ -26,64 +24,22 @@ export async function POST(request) {
       );
     }
 
-    connection = await getConnection();
+    // Find admin user by email OR firstName (username)
+    const admin = await prismaClient.user.findFirst({
+      where: {
+        OR: [
+          { email: email },
+          { firstName: email } // Allow login with username (firstName)
+        ]
+      },
+    });
 
-    // Find admin user
-    const [users] = await connection.execute(
-      "SELECT * FROM User WHERE email = ?",
-      [email]
-    );
-
-    let admin = users[0];
-
-    // If admin doesn't exist, create demo admin
+    // If admin doesn't exist, return error (no auto-registration)
     if (!admin) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      
-      const [result] = await connection.execute(
-        "INSERT INTO User (email, password, firstName, lastName, role, isActive, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())",
-        [email, hashedPassword, "Admin", "User", "SUPER_ADMIN", true]
+      return NextResponse.json(
+        { message: "Invalid email/username or password" },
+        { status: 401 }
       );
-      
-      admin = {
-        id: result.insertId,
-        email,
-        firstName: "Admin",
-        lastName: "User",
-        role: "SUPER_ADMIN",
-        isActive: true,
-      };
-      
-      const response = NextResponse.json(
-        {
-          message: "Admin account created successfully!",
-          admin: {
-            id: admin.id,
-            email: admin.email,
-            firstName: admin.firstName,
-            lastName: admin.lastName,
-            role: admin.role,
-          },
-        },
-        { status: 200 }
-      );
-
-      // Set session cookie
-      const sessionData = Buffer.from(JSON.stringify({
-        id: admin.id,
-        email: admin.email,
-        role: admin.role,
-      })).toString("base64");
-
-      response.cookies.set("admin_token", sessionData, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 60 * 60 * 24,
-        path: "/",
-      });
-
-      return response;
     }
 
     // Check if user is an admin
@@ -99,7 +55,7 @@ export async function POST(request) {
 
     if (!isPasswordValid) {
       return NextResponse.json(
-        { message: "Invalid email or password" },
+        { message: "Invalid email/username or password" },
         { status: 401 }
       );
     }
@@ -145,13 +101,23 @@ export async function POST(request) {
     return response;
   } catch (error) {
     console.error("Admin login error:", error);
+    
+    // Check if it's a database connection error
+    if (error.message && error.message.includes('prisma')) {
+      return NextResponse.json(
+        { message: "Database connection error. Please try again later." },
+        { status: 500 }
+      );
+    }
+    
     return NextResponse.json(
-      { message: "Internal server error: " + error.message },
+      { message: "Login failed. Please try again." },
       { status: 500 }
     );
   } finally {
-    if (connection) {
-      await connection.end();
+    // Disconnect to prevent connection pool exhaustion
+    if (prismaClient) {
+      await prismaClient.$disconnect().catch(() => {});
     }
   }
 }

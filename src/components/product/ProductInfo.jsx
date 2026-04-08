@@ -11,13 +11,13 @@ export default function ProductInfo({ product }) {
 
   const handleAddToCart = () => {
     addToCart({
-      slug: product.title
+      slug: product.slug || product.title
         .toLowerCase()
         .replace(/[^\w\s]/gi, "")
         .replace(/\s+/g, "-"),
       title: product.title,
       price: product.price,
-      image: product.images[0],
+      image: product.images?.[0] || product.images[0],
       oldPrice: product.oldPrice,
     }, qty);
     toast.success(`${qty} × ${product.title} added to cart!`);
@@ -52,11 +52,11 @@ export default function ProductInfo({ product }) {
       {/* Price */}
       <div className="flex flex-wrap items-center gap-3 mb-2">
         <span className="line-through text-gray-400 text-sm">
-          $ {product.oldPrice}
+          ৳ {product.oldPrice}
         </span>
 
         <span className="text-xl sm:text-2xl font-bold text-[#3b1f0f]">
-          $ {product.price}
+          ৳ {product.price}
         </span>
 
         <span className="bg-green-600 text-white text-[10px] sm:text-xs px-2 py-1 rounded">
@@ -87,7 +87,7 @@ export default function ProductInfo({ product }) {
               Results Pack
             </p>
             <p className="text-[10px] sm:text-xs text-gray-600">
-              Save $ 9
+              Save ৳ 9
             </p>
           </div>
         ))}

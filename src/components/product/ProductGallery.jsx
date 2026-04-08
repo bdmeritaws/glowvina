@@ -3,6 +3,22 @@
 import { useState } from "react";
 import Image from "next/image";
 
+// CDN Image URL Helper - uses relative paths for consistent SSR/client rendering
+const getImageUrl = (path) => {
+  if (!path) return "/images/placeholder.jpg";
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
+  }
+  // Don't add cdn/ prefix for paths that already start with /images/ or images/
+  if (path.startsWith('/images/') || path.startsWith('images/')) {
+    return path.startsWith('/') ? path : `/${path}`;
+  }
+  // Handle CDN paths - use relative path for consistency
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  const cdnPath = cleanPath.startsWith('cdn/') ? cleanPath : `cdn/${cleanPath}`;
+  return `/${cdnPath}`;
+};
+
 export default function ProductGallery({ images, title }) {
   const [activeImage, setActiveImage] = useState(0);
 
@@ -14,7 +30,7 @@ export default function ProductGallery({ images, title }) {
 
         <div className="relative w-full h-[320px] sm:h-[400px] md:h-[450px]">
           <Image
-            src={images[activeImage]}
+            src={getImageUrl(images[activeImage])}
             alt={title}
             fill
             className="object-cover"
@@ -42,7 +58,7 @@ export default function ProductGallery({ images, title }) {
             }`}
           >
             <Image
-              src={img}
+              src={getImageUrl(img)}
               alt="thumb"
               fill
               className="object-cover"

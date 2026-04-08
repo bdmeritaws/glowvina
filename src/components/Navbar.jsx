@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -22,6 +22,46 @@ import CartDrawer from "./CartDrawer";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { cartCount, openCart } = useCart();
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('/api/categories');
+        if (response.ok) {
+          const data = await response.json();
+          setCategories(data);
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Default menu items when API fails or returns empty
+  const defaultMenuItems = [
+    { icon: <MapPin size={18} />, name: "Track My Order" },
+    { name: "Handmade Soaps", slug: "handmade-soaps" },
+    { name: "New Launches", slug: "new-launches" },
+    { name: "Mom Care", slug: "mom-care" },
+    { name: "Skincare", slug: "skincare" },
+    { icon: <Percent size={18} />, name: "80% OFF DEALS" },
+    { name: "Blogs" },
+    { icon: <Phone size={18} />, name: "Contact Us" },
+    { icon: <Users size={18} />, name: "About Us" },
+    { icon: <User size={18} />, name: "Login/Signup" },
+    { icon: <Shield size={18} />, name: "Admin Panel", href: "/admin/login" },
+  ];
+
+  // Build menu items from API categories or fallback
+  const menuItems = categories.length > 0
+    ? categories.map(cat => ({ name: cat.name, slug: cat.slug }))
+    : defaultMenuItems;
 
   return (
     <>
@@ -154,31 +194,23 @@ export default function Navbar() {
 
           {/* Menu List */}
           <div className="mt-4 border-t">
-            {[
-              { icon: <MapPin size={18} />, name: "Track My Order" },
-              { name: "Handmade Soaps" },
-              { name: "New Launches" },
-              { name: "Mom Care" },
-              { name: "Skincare" },
-              { icon: <Percent size={18} />, name: "80% OFF DEALS" },
-              { name: "Blogs" },
-              { icon: <Phone size={18} />, name: "Contact Us" },
-              { icon: <Users size={18} />, name: "About Us" },
-              { icon: <User size={18} />, name: "Login/Signup" },
-              { icon: <Shield size={18} />, name: "Admin Panel", href: "/admin/login" },
-            ].map((item, index) => (
-              <Link
-                key={index}
-                href={item.href || "#"}
-                onClick={() => setOpen(false)}
-                className="w-full flex items-center gap-3 px-5 py-4 border-b cursor-pointer hover:bg-white transition text-left"
-              >
-                {item.icon}
-                <span className="font-medium text-[#3b1f0f]">
-                  {item.name}
-                </span>
-              </Link>
-            ))}
+            {loading ? (
+              <div className="px-5 py-4 text-gray-500">Loading categories...</div>
+            ) : (
+              menuItems.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.href || (item.slug ? `/products/${item.slug}` : "#")}
+                  onClick={() => setOpen(false)}
+                  className="w-full flex items-center gap-3 px-5 py-4 border-b cursor-pointer hover:bg-white transition text-left"
+                >
+                  {item.icon}
+                  <span className="font-medium text-[#3b1f0f]">
+                    {item.name}
+                  </span>
+                </Link>
+              ))
+            )}
           </div>
 
         </div>
