@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-export default function ProductGallery({ images, title }) {
+export default function ProductGallery({ images, title, resultClaim }) {
   const [activeImage, setActiveImage] = useState(0);
 
   return (
@@ -25,7 +25,7 @@ export default function ProductGallery({ images, title }) {
 
         {/* Result Strip */}
         <div className="bg-[#a86a46] text-white text-center py-3 sm:py-4 text-sm sm:text-lg md:text-xl font-semibold">
-          See Visible Reduction in 21 Days
+          {resultClaim}
         </div>
 
       </div>

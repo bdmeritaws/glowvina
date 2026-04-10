@@ -100,6 +100,7 @@ export default async function ProductDetailsPage({ params }) {
         mrp: product.mrp?.toString() || "",
         sku: product.sku || "",
         images: productImages,
+        resultClaim: product.resultClaim,
         beforeImage: product.beforeImage ? getImageUrl(product.beforeImage) : null,
         afterImage: product.afterImage ? getImageUrl(product.afterImage) : null,
       };
@@ -127,6 +128,7 @@ export default async function ProductDetailsPage({ params }) {
           <ProductGallery
             images={productData.images}
             title={productData.title}
+            resultClaim={productData.resultClaim}
           />
           <ProductInfo product={productData} />
         </div>
