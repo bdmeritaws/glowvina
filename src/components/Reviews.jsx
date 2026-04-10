@@ -62,7 +62,7 @@ export default function Reviews() {
                   />
                   <div>
                     <h4 className="font-semibold text-[#3b1f0f]">
-                      Rakshana Sharma
+                      Rakshana Sharmaa
                     </h4>
                     <p className="text-sm text-gray-500">
                       Rohtak, Haryana
