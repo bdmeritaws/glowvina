@@ -79,6 +79,11 @@ export default async function ProductPage({ params }) {
 
   const { category: cat, type: productType } = getCategoryParams(type);
 
+  const hasValidCategory = await prisma.category.findUnique({
+    where: { slug: type, isActive: true },
+    select: { id: true },
+  });
+
   if (!type) {
     return (
       <div className="min-h-screen flex items-center justify-center text-xl font-semibold">
@@ -132,7 +137,7 @@ export default async function ProductPage({ params }) {
         </div>
 
         {/* PRODUCT GRID - Fetches from API */}
-        <ProductsGrid category={cat} type={productType} />
+        <ProductsGrid category={hasValidCategory ? cat : null} type={productType} />
 
       </div>
     </section>

@@ -25,6 +25,87 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Global Form Input Dark Mode Styles - Uses CSS Variables */
+@media (prefers-color-scheme: dark) {
+  /* Target inputs inside admin content area */
+  .admin-content input:not([type="checkbox"]):not([type="radio"]),
+  .admin-content select,
+  .admin-content textarea {
+    background-color: #1f2937 !important;
+    color: #f3f4f6 !important;
+    border-color: #4b5563 !important;
+  }
+  
+  .admin-content input::placeholder,
+  .admin-content textarea::placeholder {
+    color: #9ca3af !important;
+  }
+  
+  .admin-content input:-webkit-autofill,
+  .admin-content input:-webkit-autofill:hover,
+  .admin-content input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px #1f2937 inset !important;
+    -webkit-text-fill-color: #f3f4f6 !important;
+    caret-color: #f3f4f6 !important;
+  }
+  
+  /* Dark mode text colors for admin content */
+  .admin-content h1,
+  .admin-content h2,
+  .admin-content h3,
+  .admin-content h4,
+  .admin-content .text-gray-800,
+  .admin-content .text-gray-700,
+  .admin-content .text-gray-600 {
+    color: #f3f4f6 !important;
+  }
+  
+  .admin-content .text-gray-500,
+  .admin-content .text-gray-400 {
+    color: #9ca3af !important;
+  }
+  
+  /* Dark mode backgrounds */
+  .admin-content .bg-white {
+    background-color: #1f2937 !important;
+  }
+  
+  .admin-content .bg-gray-50 {
+    background-color: #111827 !important;
+  }
+  
+  .admin-content .bg-gray-100 {
+    background-color: #1f2937 !important;
+  }
+  
+  /* Dark mode borders */
+  .admin-content .border {
+    border-color: #4b5563 !important;
+  }
+  
+  /* Dark mode table */
+  .admin-content thead {
+    background-color: #111827 !important;
+  }
+  
+  .admin-content th {
+    color: #9ca3af !important;
+  }
+  
+  .admin-content .divide-y > :not([hidden]) ~ :not([hidden]) {
+    border-color: #374151 !important;
+  }
+  
+  .admin-content tr:hover {
+    background-color: #1f2937 !important;
+  }
+  
+  /* Dark mode modal/card backgrounds */
+  .admin-content .shadow-xl,
+  .admin-content .shadow-sm {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+  }
+}
 
 html, body {
   width: 100%;

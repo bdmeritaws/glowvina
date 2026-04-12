@@ -16,7 +16,7 @@ export default function AdminLayoutWrapper({ children }) {
     <div className="flex min-h-screen">
       <AdminHeader />
       <div className="flex-1 flex flex-col lg:ml-64">
-        <main className="flex-1 p-4 lg:p-6">
+        <main className="flex-1 p-4 lg:p-6 admin-content">
           {children}
         </main>
         <AdminFooter />
