@@ -2,98 +2,96 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { ArrowRight, Star } from "lucide-react";
 
 export default function WhatToExpect({ beforeImage, afterImage }) {
   const [position, setPosition] = useState(50);
 
-  // Use product images if provided, otherwise fall back to defaults
   const beforeImg = beforeImage || "/images/whattoexpect/1.webp";
   const afterImg = afterImage || "/images/whattoexpect/2.webp";
 
   return (
-    <section className="mt-16 sm:mt-20 md:mt-24 px-4 text-center">
+    <section className="py-12 bg-white">
+      <div className="max-w-5xl mx-auto px-4">
 
-      {/* Heading */}
-      <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-[#4a1f0f] mb-6 sm:mb-8">
-        What to expect ?
-      </h2>
-
-      {/* Decorative Banner */}
-      <div className="flex justify-center mb-8 sm:mb-12">
-        <div className="relative border border-[#b98c6a] text-[#4a1f0f] px-4 sm:px-8 py-2 sm:py-3 rounded-md text-xs sm:text-sm md:text-base font-medium bg-white w-full sm:w-fit max-w-md sm:max-w-none">
-
-          <span className="hidden sm:block absolute left-4 top-1/2 -translate-y-1/2 text-[#b98c6a] text-lg">
-            ✦
-          </span>
-
-          <span className="sm:mx-8">
-            Visible Reduction of Stretch Marks in 28 Days*
-          </span>
-
-          <span className="hidden sm:block absolute right-4 top-1/2 -translate-y-1/2 text-[#b98c6a] text-lg">
-            ✦
-          </span>
-
-        </div>
-      </div>
-
-      {/* Before/After Slider */}
-      <div className="relative max-w-5xl mx-auto rounded-xl overflow-hidden shadow-lg">
-
-        {/* AFTER IMAGE */}
-        <div className="relative w-full h-[260px] sm:h-[380px] md:h-[520px]">
-          <Image
-            src={afterImg}
-            alt="After"
-            fill
-            className="object-cover"
-          />
-        </div>
-
-        {/* BEFORE IMAGE */}
-        <div
-          className="absolute top-0 left-0 h-full overflow-hidden"
-          style={{ width: `${position}%` }}
-        >
-          <Image
-            src={beforeImg}
-            alt="Before"
-            fill
-            className="object-cover"
-          />
-        </div>
-
-        {/* Divider Line */}
-        <div
-          className="absolute top-0 bottom-0 w-[2px] sm:w-[3px] bg-black"
-          style={{ left: `${position}%` }}
-        >
-          <div className="absolute top-1/2 -translate-y-1/2 -left-4 bg-[#2e2e2e] text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-md cursor-ew-resize text-sm sm:text-base">
-            ≡
+        {/* Heading */}
+        <div className="text-center mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3">
+            What to Expect?
+          </h2>
+          <div className="flex items-center justify-center gap-2">
+            <div className="flex">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={16} className="fill-orange-400 text-orange-400" />
+              ))}
+            </div>
+            <span className="text-gray-600 text-sm">Visible results in 28 days*</span>
           </div>
         </div>
 
-        {/* Invisible Slider */}
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={position}
-          onChange={(e) => setPosition(e.target.value)}
-          className="absolute top-0 left-0 w-full h-full opacity-0 cursor-ew-resize"
-        />
+        {/* Before/After Comparison */}
+        <div className="relative max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-xl border border-gray-200">
 
-        {/* Labels */}
-        <span className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#4a3b2f] text-white text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded">
-          BEFORE
-        </span>
+          {/* After Image (Full Width) */}
+          <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px]">
+            <Image
+              src={afterImg}
+              alt="After"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
 
-        <span className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-[#4a3b2f] text-white text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded">
-          AFTER
-        </span>
+          {/* Before Image (Clipped) */}
+          <div
+            className="absolute top-0 left-0 h-full overflow-hidden"
+            style={{ width: `${position}%` }}
+          >
+            <Image
+              src={beforeImg}
+              alt="Before"
+              fill
+              className="object-cover"
+            />
+          </div>
+
+          {/* Divider Line with Handle */}
+          <div
+            className="absolute top-0 bottom-0 w-1 bg-white shadow-lg"
+            style={{ left: `${position}%`, transform: 'translateX(-50%)' }}
+          >
+            <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-xl cursor-ew-resize">
+              <ArrowRight size={16} className="text-gray-700 -rotate-90" />
+              <ArrowRight size={16} className="text-gray-700 rotate-90 absolute" />
+            </div>
+          </div>
+
+          {/* Slider Input */}
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={position}
+            onChange={(e) => setPosition(e.target.value)}
+            className="absolute top-0 left-0 w-full h-full opacity-0 cursor-ew-resize"
+          />
+
+          {/* Labels */}
+          <span className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-medium">
+            Before
+          </span>
+          <span className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-medium">
+            After
+          </span>
+        </div>
+
+        {/* Info Text */}
+        <p className="text-center text-gray-400 text-xs mt-4">
+          *Individual results may vary. For best results, use consistently for 28 days.
+        </p>
 
       </div>
-
     </section>
   );
 }

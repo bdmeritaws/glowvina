@@ -16,32 +16,34 @@ export default function ProductSection({ title, products: externalProducts, type
     slug: p.slug,
   }));
 
-  // Generate URL-friendly slug from title
   const getSectionSlug = () => {
     if (type) return type;
     return title.toLowerCase().replace(/\s+/g, "-");
   };
 
   return (
-    <section className="bg-[#f4f1ee] py-16">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="bg-white py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
         {/* HEADING */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-[#5a2a0f] mb-5">
-            {title}
-          </h2>
+        <div className="flex flex-col sm:flex-row items-center justify-between mb-10 gap-4">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
+              {title}
+            </h2>
+            <div className="h-1 w-16 bg-orange-500 mt-2 rounded-full"></div>
+          </div>
 
           <Link
             href={`/products/${getSectionSlug()}`}
-            className="border border-[#5a2a0f] text-[#5a2a0f] px-8 py-2 rounded-full hover:bg-[#5a2a0f] hover:text-white transition inline-block"
+            className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-orange-600 transition"
           >
-            Explore All
+            View All <span className="text-lg">&rarr;</span>
           </Link>
         </div>
 
         {/* GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
           {displayProducts.map((product, index) => (
             <ProductCard key={index} {...product} />
           ))}

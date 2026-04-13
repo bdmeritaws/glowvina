@@ -1,49 +1,47 @@
 "use client";
 
 import Image from "next/image";
+import { CheckCircle, Shield, Award, Scale } from "lucide-react";
 
 export default function TriedAndTested() {
   const badges = [
-    { title: "Dermatologically Tested", image: "/images/tried&tested/lab-tested.webp" },
-    { title: "Stability Tested", image: "/images/tried&tested/stability.webp" },
-    { title: "FDA Approved", image: "/images/tried&tested/fda-certified.webp" },
-    { title: "GMP Certified", image: "/images/tried&tested/gmd-certified.webp" },
+    { title: "Dermatologically Tested", subtitle: "Safe for all skin types", icon: <Shield size={28} />, color: "bg-blue-50 text-blue-600" },
+    { title: "Stability Tested", subtitle: "Proven formula stability", icon: <Scale size={28} />, color: "bg-purple-50 text-purple-600" },
+    { title: "FDA Approved", subtitle: "Government certified", icon: <Award size={28} />, color: "bg-green-50 text-green-600" },
+    { title: "GMP Certified", subtitle: "Quality manufacturing", icon: <CheckCircle size={28} />, color: "bg-orange-50 text-orange-600" },
   ];
 
   return (
-    <div className="mt-20">
-      <h2 className="text-3xl font-bold text-center text-[#3b1f0f] mb-10">
-        Tried and Tested
-      </h2>
+    <div className="py-12 bg-gray-50 rounded-2xl mt-8">
+      <div className="max-w-7xl mx-auto px-4">
+        
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-3">
+          Tried & Tested
+        </h2>
+        <p className="text-gray-500 text-center mb-10">
+          Quality you can trust
+        </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {badges.map((item, index) => (
-          <div
-            key={index}
-            className="bg-[#efe6dc] border-2 border-[#5a2a0f] rounded-xl p-6 flex justify-between items-center hover:shadow-lg transition"
-          >
-            {/* LEFT CONTENT */}
-            <div>
-              <h3 className="font-semibold text-[#3b1f0f] mb-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {badges.map((item, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl p-5 flex flex-col items-center text-center hover:shadow-lg transition-shadow duration-300 border border-gray-100"
+            >
+              <div className={`w-14 h-14 rounded-full ${item.color} flex items-center justify-center mb-4`}>
+                {item.icon}
+              </div>
+              
+              <h3 className="font-semibold text-gray-800 text-sm mb-1">
                 {item.title}
               </h3>
-
-              <button className="bg-[#5a2a0f] text-white text-xs px-4 py-2 rounded-md hover:bg-[#3b1f0f] transition">
-                Learn More
-              </button>
+              <p className="text-xs text-gray-500">
+                {item.subtitle}
+              </p>
             </div>
+          ))}
+        </div>
 
-            {/* RIGHT IMAGE (IMPROVED) */}
-            <div className="relative w-24 h-24 bg-white rounded-full shadow-md ring-2 ring-[#5a2a0f]/30 flex items-center justify-center">
-              <Image
-                src={item.image}
-                alt={item.title}
-                fill
-                className="object-contain"
-              />
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );

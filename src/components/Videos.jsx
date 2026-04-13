@@ -2,71 +2,93 @@
 
 import { useCart } from "@/context/CartContext";
 import toast from "react-hot-toast";
+import { Play, Eye, Plus } from "lucide-react";
+import { useState } from "react";
 
 const videos = [
-  { link: "https://www.youtube.com/embed/MlpO5jFx9p8" },
-  { link: "https://www.youtube.com/embed/8GkFzcNQT3M" },
-  { link: "https://www.youtube.com/embed/cf0biRzj3BI" },
-  { link: "https://www.youtube.com/embed/UnyIA8SVvL0" },
-  { link: "https://www.youtube.com/embed/qYVFytHJL-M" },
-  { link: "https://www.youtube.com/embed/_KA0nyJWakw" },
+  { link: "https://www.youtube.com/embed/MlpO5jFx9p8", title: "Stretch Mark Cream", price: "₹299" },
+  { link: "https://www.youtube.com/embed/8GkFzcNQT3M", title: "Face Serum Review", price: "₹450" },
+  { link: "https://www.youtube.com/embed/cf0biRzj3BI", title: "Skincare Routine", price: "₹350" },
+  { link: "https://www.youtube.com/embed/UnyIA8SVvL0", title: " mom Care Tips", price: "₹280" },
+  { link: "https://www.youtube.com/embed/qYVFytHJL-M", title: "Handmade Soaps", price: "₹150" },
+  { link: "https://www.youtube.com/embed/_KA0nyJWakw", title: "Body Lotion", price: "₹399" },
 ];
 
 export default function Videos() {
   const { addToCart } = useCart();
+  const [activeIndex, setActiveIndex] = useState(null);
 
   return (
-    <section className="bg-[#f4f1ee] py-16 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4">
+    <section className="bg-white py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
-        <h2 className="text-4xl font-bold text-center text-[#5a2a0f] mb-12">
-          Shop By Videos
-        </h2>
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
+            Shop By Videos
+          </h2>
+          <p className="text-gray-500 text-sm">
+            Watch reviews and tutorials from our customers
+          </p>
+        </div>
 
-        {/* Scroll Container */}
-        <div className="relative w-full overflow-hidden">
-          <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
-
-            {videos.map((video, index) => (
-              <div
-                key={index}
-                className="flex-shrink-0 w-[200px] sm:w-[230px] bg-black rounded-xl overflow-hidden shadow-lg"
+        {/* Video Cards Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {videos.map((video, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group border border-gray-100"
+            >
+              {/* Video Thumbnail */}
+              <div 
+                className="relative aspect-[3/4] bg-gray-900 cursor-pointer"
+                onMouseEnter={() => setActiveIndex(index)}
+                onMouseLeave={() => setActiveIndex(null)}
               >
-                <div className="relative w-full aspect-[9/16]">
-                  <iframe
-                    src={video.link}
-                    className="w-full h-full"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-
-                <div className="bg-white p-3 text-sm">
-                  <h4 className="font-semibold text-[#3b1f0f] truncate">
-                    Pokonut Stretch Mark Cream
-                  </h4>
-                  <div className="flex gap-2 text-xs mt-1">
-                    <span className="font-bold text-[#3b1f0f]">
-                      $ 5.00
-                    </span>
-                    <span className="line-through text-gray-400">
-                      $ 8.00
-                    </span>
+                <iframe
+                  src={video.link}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+                {activeIndex !== index && (
+                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Play size={40} className="text-white fill-white" />
                   </div>
-                </div>
+                )}
+              </div>
 
+              {/* Info */}
+              <div className="p-3">
+                <h4 className="font-semibold text-gray-800 text-sm mb-1 truncate">
+                  {video.title}
+                </h4>
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-orange-600">
+                    {video.price}
+                  </span>
+                </div>
+              </div>
+
+              {/* Quick Add Button */}
+              <div className="px-3 pb-3">
                 <button 
                   onClick={() => {
-                    addToCart({ slug: 'pokonut-stretch-mark-cream', title: 'Pokonut Stretch Mark Cream', price: '5.00', image: '/images/bestsellers/1.webp' });
-                    toast.success('Pokonut Stretch Mark Cream added to cart!');
+                    addToCart({ 
+                      slug: video.title.toLowerCase().replace(/\s+/g, '-'), 
+                      title: video.title, 
+                      price: video.price.replace('₹', ''), 
+                      image: '/images/placeholder.webp' 
+                    });
+                    toast.success(`${video.title} added to cart!`);
                   }}
-                  className="w-full bg-black text-white py-2 text-sm font-medium hover:bg-[#333] transition"
+                  className="w-full flex items-center justify-center gap-1 bg-gray-900 text-white py-2 text-xs font-medium rounded-lg hover:bg-orange-600 transition"
                 >
-                  Add to Cart
+                  <Plus size={14} />
+                  Add
                 </button>
               </div>
-            ))}
-
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

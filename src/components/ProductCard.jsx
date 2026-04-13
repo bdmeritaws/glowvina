@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import toast from "react-hot-toast";
+import { Heart, ShoppingBag } from "lucide-react";
+import { useState } from "react";
 
 export default function ProductCard({
   image,
@@ -16,6 +18,7 @@ export default function ProductCard({
   slug: propSlug,
 }) {
   const { addToCart } = useCart();
+  const [isWishlisted, setIsWishlisted] = useState(false);
 
   const productPrice = newPrice || price;
 
@@ -24,7 +27,9 @@ export default function ProductCard({
     .replace(/[^\w\s]/gi, "")
     .replace(/\s+/g, "-");
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     addToCart({
       slug,
       title,
@@ -32,79 +37,89 @@ export default function ProductCard({
       image,
       oldPrice,
     });
-    toast.success(`${title} added to cart!`);
+    toast.success(`Added to cart!`);
+  };
+
+  const handleWishlist = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsWishlisted(!isWishlisted);
+    toast.success(isWishlisted ? "Removed from wishlist" : "Added to wishlist");
   };
 
   return (
-    <div className="bg-white rounded-lg border border-[#e5ddd5] overflow-hidden transition hover:shadow-md group">
+    <div className="bg-white rounded-xl overflow-hidden transition hover:shadow-xl group border border-gray-100">
 
-      {/* ===== IMAGE AREA ===== */}
+      {/* IMAGE AREA */}
       <Link href={`/product/${slug}`}>
-        <div className="relative bg-[#f3e9df] cursor-pointer">
+        <div className="relative bg-gray-50 cursor-pointer aspect-square">
 
-          {/* SALE BADGE */}
-          <span className="absolute top-2 left-2 z-10 bg-[#5a2a0f] text-white text-[9px] sm:text-xs px-2.5 py-1 rounded-full font-medium">
-            Sale
-          </span>
+          {/* Badges */}
+          <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
+            {discount > 0 && (
+              <span className="bg-orange-500 text-white text-[10px] px-2 py-1 rounded-full font-semibold">
+                {discount}% OFF
+              </span>
+            )}
+          </div>
 
-          {/* PRODUCT IMAGE */}
-          <div className="relative w-full h-40 sm:h-56">
+          {/* Wishlist Button */}
+          <button
+            onClick={handleWishlist}
+            className="absolute top-3 right-3 z-10 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition"
+          >
+            <Heart 
+              size={16} 
+              className={isWishlisted ? "fill-orange-500 text-orange-500" : "text-gray-400"} 
+            />
+          </button>
+
+          {/* Product Image */}
+          <div className="relative w-full h-full p-4">
             <Image
               src={image || "/images/placeholder.webp"}
               alt={title}
               fill
-              className="object-contain p-3 sm:p-5 group-hover:scale-105 transition duration-300"
+              className="object-contain group-hover:scale-105 transition-transform duration-300"
               onError={(e) => { e.target.src = '/images/placeholder.webp'; }}
             />
           </div>
 
-          {/* SUBTITLE STRIP */}
-          {/* {subtitle && (
-            <div className="bg-[#8b5e3c] text-white text-center py-1.5 text-[10px] sm:text-sm font-medium">
-              {subtitle}
-            </div>
-          )} */}
-
         </div>
       </Link>
 
-      {/* ===== CONTENT ===== */}
-      <div className="px-3 py-3 sm:px-5 sm:py-4">
+      {/* CONTENT */}
+      <div className="px-4 py-4">
 
-        {/* TITLE → Details */}
         <Link href={`/product/${slug}`}>
-          <h3 className="text-xs sm:text-base font-semibold text-[#3b1f0f] mb-1.5 line-clamp-2 leading-snug cursor-pointer hover:text-[#5a2a0f] transition">
+          <h3 className="text-sm font-semibold text-gray-800 mb-1 line-clamp-2 leading-snug hover:text-orange-600 transition cursor-pointer">
             {title}
           </h3>
         </Link>
 
+        <p className="text-xs text-gray-500 mb-2 line-clamp-1">
+          {subtitle}
+        </p>
+
         {/* PRICE */}
-        <div className="flex items-center gap-1.5 mb-3 text-[11px] sm:text-sm">
-
-          {oldPrice && (
-            <span className="text-gray-400 line-through">
-              $ {oldPrice}
-            </span>
-          )}
-
-          <span className="font-bold text-[#3b1f0f] text-sm sm:text-base">
-            $ {productPrice}
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-lg font-bold text-gray-900">
+            ₹{productPrice}
           </span>
-
-          {discount && (
-            <span className="text-red-500 font-semibold">
-              ({discount}%)
+          {oldPrice && (
+            <span className="text-sm text-gray-400 line-through">
+              ₹{oldPrice}
             </span>
           )}
-
         </div>
 
         {/* ADD TO CART BUTTON */}
         <button
           onClick={handleAddToCart}
-          className="w-full bg-[#5a2a0f] text-white text-[11px] sm:text-sm py-2 sm:py-3 rounded-md font-semibold tracking-wide hover:bg-[#3b1f0f] transition"
+          className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white text-sm py-2.5 rounded-lg font-medium hover:bg-orange-600 transition"
         >
-          ADD TO CART
+          <ShoppingBag size={16} />
+          Add to Cart
         </button>
 
       </div>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import toast from "react-hot-toast";
+import { Star, Shield, Truck, RotateCcw, Heart, Share2, Check, Minus, Plus } from "lucide-react";
 
 export default function ProductInfo({ product }) {
   const [qty, setQty] = useState(1);
@@ -25,152 +26,147 @@ export default function ProductInfo({ product }) {
   };
 
   return (
-    <div>
+    <div className="space-y-5">
 
       {/* Rating */}
-      <div className="flex items-center gap-2 text-sm mb-2">
-        <span className="text-yellow-500 text-lg">★★★★★</span>
-        <span className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm">
-          {product.reviews} Reviews
-        </span>
+      <div className="flex items-center gap-2">
+        <div className="flex">
+          {[...Array(5)].map((_, i) => (
+            <Star key={i} size={16} className="fill-orange-400 text-orange-400" />
+          ))}
+        </div>
+        <span className="text-gray-500 text-sm">({product.reviews} reviews)</span>
+        <button className="ml-auto p-2 hover:bg-gray-100 rounded-full transition">
+          <Share2 size={18} className="text-gray-500" />
+        </button>
+        <button className="p-2 hover:bg-gray-100 rounded-full transition">
+          <Heart size={18} className="text-gray-500" />
+        </button>
       </div>
 
       {/* Title */}
-      <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-900 mb-4 leading-snug">
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
         {product.title}
       </h1>
 
       {/* Badges */}
-      <div className="flex gap-2 sm:gap-3 mb-4 flex-wrap">
-        <span className="bg-[#e9dfd6] dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-medium">
-          Dermatologically Tested
+      <div className="flex gap-2 flex-wrap">
+        <span className="flex items-center gap-1 bg-green-50 text-green-700 px-3 py-1.5 rounded-full text-xs font-medium">
+          <Check size={14} /> Dermatologically Tested
         </span>
-
-        <span className="bg-[#e9dfd6] dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-medium">
-          SLS & Paraben Free
+        <span className="flex items-center gap-1 bg-orange-50 text-orange-700 px-3 py-1.5 rounded-full text-xs font-medium">
+          <Shield size={14} /> 100% Natural
         </span>
       </div>
 
       {/* Price */}
-      <div className="flex flex-wrap items-center gap-3 mb-2">
-        <span className="line-through text-gray-400 dark:text-gray-500 text-sm">
-          $ {product.oldPrice}
+      <div className="flex items-baseline gap-3">
+        <span className="text-3xl font-bold text-gray-900">
+          ₹{product.price}
         </span>
-
-        <span className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
-          $ {product.price}
+        <span className="text-lg text-gray-400 line-through">
+          ₹{product.oldPrice}
         </span>
-
-        <span className="bg-green-600 text-white text-[10px] sm:text-xs px-2 py-1 rounded">
+        <span className="bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
           {product.discount}% OFF
         </span>
       </div>
 
-      <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-6">
-        MRP (Inclusive of all Taxes)
+      <p className="text-sm text-gray-500">
+        MRP (Inclusive of all taxes)
       </p>
 
       {/* Variant Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
-        {[1, 2, 3].map((pack) => (
-          <div
-            key={pack}
-            className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-center cursor-pointer hover:border-gray-800 dark:hover:border-white transition shadow-sm"
-          >
-            <div className="relative w-full h-14 sm:h-16 mb-2">
-              <Image
-                src={product.images[0]}
-                alt="pack"
-                fill
-                className="object-contain"
-              />
+      <div>
+        <p className="text-sm font-medium text-gray-700 mb-3">Select Pack</p>
+        <div className="grid grid-cols-3 gap-3">
+          {[1, 2, 3].map((pack) => (
+            <div
+              key={pack}
+              className="bg-white border-2 border-gray-200 rounded-xl p-3 text-center cursor-pointer hover:border-orange-500 hover:shadow-md transition"
+            >
+              <div className="relative w-full h-12 mb-2">
+                <Image
+                  src={product.images[0]}
+                  alt="pack"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <p className="text-xs font-semibold text-gray-900">
+                {pack === 1 ? "Single" : pack === 2 ? "Combo" : "_family Pack"}
+              </p>
+              <p className="text-[10px] text-green-600 font-medium">
+                {pack === 1 ? "" : pack === 2 ? "Save ₹50" : "Save ₹150"}
+              </p>
             </div>
-
-            <p className="text-[11px] sm:text-xs font-semibold text-gray-900 dark:text-gray-100">
-              Results Pack
-            </p>
-
-            <p className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400">
-              Save $ 9
-            </p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* ACTION SECTION */}
-      <div className="space-y-4 mb-8">
+      <div className="space-y-3">
 
-        <div className="flex flex-col sm:flex-row items-center gap-4">
+        {/* Quantity & Add */}
+        <div className="flex flex-col sm:flex-row items-center gap-3">
 
-          {/* Quantity */}
-          <div className="flex justify-center sm:justify-start w-full sm:w-auto">
-            <div className="flex items-center bg-white dark:bg-gray-900 shadow-sm border border-gray-300 dark:border-gray-700 rounded-xl overflow-hidden">
-
-              <button
-                onClick={() => setQty(Math.max(1, qty - 1))}
-                className="w-12 h-12 flex items-center justify-center text-xl font-bold text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition active:scale-95"
-              >
-                −
-              </button>
-
-              <span className="w-14 text-center text-base font-semibold text-gray-900 dark:text-gray-100">
-                {qty}
-              </span>
-
-              <button
-                onClick={() => setQty(qty + 1)}
-                className="w-12 h-12 flex items-center justify-center text-xl font-bold text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition active:scale-95"
-              >
-                +
-              </button>
-
-            </div>
+          {/* Quantity Selector */}
+          <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
+            <button
+              onClick={() => setQty(Math.max(1, qty - 1))}
+              className="w-12 h-12 flex items-center justify-center text-xl font-bold text-gray-700 hover:bg-gray-100 transition"
+            >
+              <Minus size={18} />
+            </button>
+            <span className="w-14 text-center text-base font-semibold text-gray-900">
+              {qty}
+            </span>
+            <button
+              onClick={() => setQty(qty + 1)}
+              className="w-12 h-12 flex items-center justify-center text-xl font-bold text-gray-700 hover:bg-gray-100 transition"
+            >
+              <Plus size={18} />
+            </button>
           </div>
 
           {/* Add To Cart */}
           <button 
             onClick={handleAddToCart}
-            className="w-full sm:flex-1 bg-[#5a2a0f] text-white dark:bg-white dark:text-black py-3 rounded-xl font-semibold tracking-wide hover:opacity-90 transition shadow-md"
+            className="flex-1 w-full bg-gray-900 text-white py-3.5 rounded-xl font-semibold hover:bg-orange-600 transition shadow-lg"
           >
             ADD TO CART
           </button>
-
         </div>
 
         {/* Buy Now */}
-        <button className="w-full border-2 border-gray-900 dark:border-gray-200 text-gray-900 dark:text-gray-900 py-3 rounded-xl font-semibold tracking-wide hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition">
+        <button className="w-full border-2 border-gray-900 text-gray-900 py-3.5 rounded-xl font-semibold hover:bg-gray-900 hover:text-white transition">
           BUY IT NOW
         </button>
-
       </div>
 
-      {/* Delivery Timeline */}
-      <div className="bg-[#efe6dc] dark:bg-gray-900 rounded-xl p-4 sm:p-6 grid grid-cols-3 text-center text-xs sm:text-sm gap-2">
-
-        <div>
-          <div className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl mb-1">📦</div>
-          <p className="font-semibold text-gray-900 dark:text-gray-100">Feb 19</p>
-          <p className="text-gray-600 dark:text-gray-400 text-[10px] sm:text-xs">
-            Order Placed
-          </p>
+      {/* Delivery Info */}
+      <div className="bg-gray-50 rounded-xl p-4 space-y-3">
+        <div className="flex items-center gap-3 text-sm">
+          <Truck size={20} className="text-orange-600" />
+          <div>
+            <p className="font-medium text-gray-900">Free Delivery</p>
+            <p className="text-gray-500 text-xs">On orders above ₹499</p>
+          </div>
         </div>
-
-        <div>
-          <div className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl mb-1">🚚</div>
-          <p className="font-semibold text-gray-900 dark:text-gray-100">Feb 20</p>
-          <p className="text-gray-600 dark:text-gray-400 text-[10px] sm:text-xs">
-            Order Shipped
-          </p>
+        <div className="flex items-center gap-3 text-sm">
+          <RotateCcw size={20} className="text-orange-600" />
+          <div>
+            <p className="font-medium text-gray-900">Easy Returns</p>
+            <p className="text-gray-500 text-xs">30-day return policy</p>
+          </div>
         </div>
-
-        <div>
-          <div className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl mb-1">🏠</div>
-          <p className="font-semibold text-gray-900 dark:text-gray-100">Feb 23-24</p>
-          <p className="text-gray-600 dark:text-gray-400 text-[10px] sm:text-xs">
-            Delivery
-          </p>
+        <div className="flex items-center gap-3 text-sm">
+          <Shield size={20} className="text-orange-600" />
+          <div>
+            <p className="font-medium text-gray-900">Genuine Product</p>
+            <p className="text-gray-500 text-xs">100% authentic guarantee</p>
+          </div>
         </div>
-
       </div>
 
     </div>

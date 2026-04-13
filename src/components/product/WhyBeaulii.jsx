@@ -1,99 +1,83 @@
 "use client";
 
-import Image from "next/image";
+import { Check, X, Star } from "lucide-react";
 
 export default function WhyBeaulii() {
-  return (
-    <section className="mt-24">
+  const beauliiBenefits = [
+    "Rooted in Ayurveda, Proven by Science",
+    "Safe For Delicate Areas",
+    "Rich Cream, Pocket Friendly",
+    "Reduces Patches, Softens Skin",
+    "Made with Real Mom Logic",
+  ];
 
-      <div className="bg-[#e8dfc9] rounded-2xl py-16 px-6 md:px-12">
+  const othersCons = [
+    "Bleach-Based Quick Fix",
+    "Harsh On Sensitive Skin",
+    "Priced Higher Than Worth",
+    "Same Cream For All",
+    "Made To Sell, Not Heal",
+  ];
+
+  return (
+    <section className="py-12 bg-gray-50 rounded-2xl mt-8">
+      <div className="max-w-4xl mx-auto px-4">
 
         {/* Heading */}
-        <h2 className="text-4xl md:text-5xl font-bold text-center text-[#4a1f0f] mb-14">
-          Why BEAULII ?
-        </h2>
-
-        {/* Comparison Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-
-          {/* LEFT - BEAULII */}
-          <div className="bg-[#d5a37d] rounded-2xl p-8 flex flex-col md:flex-row items-center gap-6">
-
-            <div className="relative w-40 h-40">
-              <Image
-                src="/images/bestsellers/1.webp"
-                alt="Beaulii Product"
-                fill
-                className="object-contain"
-              />
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            Why Choose Beaulii?
+          </h2>
+          <div className="flex items-center justify-center gap-2">
+            <div className="flex">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={16} className="fill-orange-400 text-orange-400" />
+              ))}
             </div>
+            <span className="text-gray-500 text-sm">Trusted by 10,000+ customers</span>
+          </div>
+        </div>
 
-            <ul className="space-y-3 text-sm md:text-base font-medium text-[#3b1f0f]">
-              <li className="flex items-center gap-2">
-                <span className="text-green-600 text-lg">✔</span>
-                Rooted in Ayurveda, Proven by Science
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600 text-lg">✔</span>
-                Safe For Delicate Areas
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600 text-lg">✔</span>
-                Rich Cream, Pocket Friendly
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600 text-lg">✔</span>
-                Reduces Patches, Softens Skin
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600 text-lg">✔</span>
-                Made with Real Mom Logic
-              </li>
+        {/* Comparison Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          {/* Beaulii */}
+          <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-green-200">
+            <h3 className="text-lg font-bold text-green-700 mb-4 text-center">
+              Beaulii
+            </h3>
+            <ul className="space-y-3">
+              {beauliiBenefits.map((item, index) => (
+                <li key={index} className="flex items-start gap-3 text-sm text-gray-700">
+                  <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Check size={12} className="text-green-600" />
+                  </div>
+                  {item}
+                </li>
+              ))}
             </ul>
-
           </div>
 
-          {/* RIGHT - OTHERS */}
-          <div className="bg-[#d5a37d] rounded-2xl p-8 flex flex-col md:flex-row items-center gap-6">
-
-            <div className="relative w-40 h-40">
-              <Image
-                src="/images/bestsellers/2.webp"
-                alt="Other Products"
-                fill
-                className="object-contain"
-              />
-            </div>
-
-            <ul className="space-y-3 text-sm md:text-base font-medium text-[#3b1f0f]">
-              <li className="flex items-center gap-2">
-                <span className="text-red-600 text-lg">✘</span>
-                Bleach-Based Quick Fix
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-red-600 text-lg">✘</span>
-                Harsh On Sensitive Skin
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-red-600 text-lg">✘</span>
-                Priced Higher Than Worth
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-red-600 text-lg">✘</span>
-                Same Cream For All
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-red-600 text-lg">✘</span>
-                Made To Sell, Not Heal
-              </li>
+          {/* Others */}
+          <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-red-100">
+            <h3 className="text-lg font-bold text-red-700 mb-4 text-center">
+              Others
+            </h3>
+            <ul className="space-y-3">
+              {othersCons.map((item, index) => (
+                <li key={index} className="flex items-start gap-3 text-sm text-gray-500">
+                  <div className="w-5 h-5 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <X size={12} className="text-red-500" />
+                  </div>
+                  {item}
+                </li>
+              ))}
             </ul>
-
           </div>
 
         </div>
 
       </div>
-
     </section>
   );
 }
