@@ -16,7 +16,7 @@ export default function Footer() {
             </div>
             <div>
               <h4 className="font-semibold text-sm">Free Shipping</h4>
-              <p className="text-xs text-slate-400">On orders ₹499+</p>
+              <p className="text-xs text-slate-400">On orders $499+</p>
             </div>
           </div>
           <div className="flex items-center gap-3">

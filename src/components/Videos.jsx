@@ -6,12 +6,12 @@ import { Play, Eye, Plus } from "lucide-react";
 import { useState } from "react";
 
 const videos = [
-  { link: "https://www.youtube.com/embed/MlpO5jFx9p8", title: "Stretch Mark Cream", price: "₹299" },
-  { link: "https://www.youtube.com/embed/8GkFzcNQT3M", title: "Face Serum Review", price: "₹450" },
-  { link: "https://www.youtube.com/embed/cf0biRzj3BI", title: "Skincare Routine", price: "₹350" },
-  { link: "https://www.youtube.com/embed/UnyIA8SVvL0", title: " mom Care Tips", price: "₹280" },
-  { link: "https://www.youtube.com/embed/qYVFytHJL-M", title: "Handmade Soaps", price: "₹150" },
-  { link: "https://www.youtube.com/embed/_KA0nyJWakw", title: "Body Lotion", price: "₹399" },
+  { link: "https://www.youtube.com/embed/MlpO5jFx9p8", title: "Stretch Mark Cream", price: "$299" },
+  { link: "https://www.youtube.com/embed/8GkFzcNQT3M", title: "Face Serum Review", price: "$450" },
+  { link: "https://www.youtube.com/embed/cf0biRzj3BI", title: "Skincare Routine", price: "$350" },
+  { link: "https://www.youtube.com/embed/UnyIA8SVvL0", title: " mom Care Tips", price: "$280" },
+  { link: "https://www.youtube.com/embed/qYVFytHJL-M", title: "Handmade Soaps", price: "$150" },
+  { link: "https://www.youtube.com/embed/_KA0nyJWakw", title: "Body Lotion", price: "$399" },
 ];
 
 export default function Videos() {
@@ -76,7 +76,7 @@ export default function Videos() {
                     addToCart({ 
                       slug: video.title.toLowerCase().replace(/\s+/g, '-'), 
                       title: video.title, 
-                      price: video.price.replace('₹', ''), 
+                      price: video.price.replace('$', ''), 
                       image: '/images/placeholder.webp' 
                     });
                     toast.success(`${video.title} added to cart!`);

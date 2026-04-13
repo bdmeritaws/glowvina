@@ -170,7 +170,7 @@ export default function Hero() {
           <div className="bg-gradient-to-r from-[#5a1f00] to-[#8a3a10] rounded-xl p-6 flex items-center justify-between">
             <div>
               <h3 className="text-white text-lg font-bold mb-1">Free Shipping</h3>
-              <p className="text-orange-100 text-sm">On orders above ₹499</p>
+              <p className="text-orange-100 text-sm">On orders above $499</p>
             </div>
             <ArrowRight size={24} className="text-white" />
           </div>

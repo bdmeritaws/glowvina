@@ -180,9 +180,9 @@ export default function Navbar() {
                           <p className="text-sm font-medium text-gray-800 truncate">{product.title}</p>
                           <p className="text-xs text-gray-500 truncate">{product.shortDescription}</p>
                           <div className="flex items-center gap-2 mt-1">
-                            <span className="text-sm font-bold text-orange-600">₹{product.price}</span>
+                            <span className="text-sm font-bold text-orange-600">${product.price}</span>
                             {product.oldPrice && (
-                              <span className="text-xs text-gray-400 line-through">₹{product.oldPrice}</span>
+                              <span className="text-xs text-gray-400 line-through">${product.oldPrice}</span>
                             )}
                           </div>
                         </div>
@@ -358,7 +358,7 @@ export default function Navbar() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-800 truncate">{product.title}</p>
-                      <span className="text-sm font-bold text-orange-600">₹{product.price}</span>
+                      <span className="text-sm font-bold text-orange-600">${product.price}</span>
                     </div>
                   </Link>
                 ))}

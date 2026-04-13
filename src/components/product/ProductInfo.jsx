@@ -62,10 +62,10 @@ export default function ProductInfo({ product }) {
       {/* Price */}
       <div className="flex items-baseline gap-3">
         <span className="text-3xl font-bold text-gray-900">
-          ₹{product.price}
+          ${product.price}
         </span>
         <span className="text-lg text-gray-400 line-through">
-          ₹{product.oldPrice}
+          ${product.oldPrice}
         </span>
         <span className="bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
           {product.discount}% OFF
@@ -97,7 +97,7 @@ export default function ProductInfo({ product }) {
                 {pack === 1 ? "Single" : pack === 2 ? "Combo" : "_family Pack"}
               </p>
               <p className="text-[10px] text-green-600 font-medium">
-                {pack === 1 ? "" : pack === 2 ? "Save ₹50" : "Save ₹150"}
+                {pack === 1 ? "" : pack === 2 ? "Save $50" : "Save $150"}
               </p>
             </div>
           ))}
@@ -150,7 +150,7 @@ export default function ProductInfo({ product }) {
           <Truck size={20} className="text-orange-600" />
           <div>
             <p className="font-medium text-gray-900">Free Delivery</p>
-            <p className="text-gray-500 text-xs">On orders above ₹499</p>
+            <p className="text-gray-500 text-xs">On orders above $499</p>
           </div>
         </div>
         <div className="flex items-center gap-3 text-sm">
