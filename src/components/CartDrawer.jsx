@@ -26,7 +26,7 @@ export default function CartDrawer() {
       />
 
       {/* Drawer */}
-      <div className="fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 shadow-xl flex flex-col">
+      <div className="fixed right-0 top-0 h-full w-full max-w-md bg-white z-[1200] shadow-xl flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b bg-[#f4f1ee]">
           <div className="flex items-center gap-2">

@@ -17,45 +17,130 @@ export default async function ProductPage({ params }) {
 
   if (category) {
     return (
-      <section className="bg-[#f4f1ee] min-h-screen pt-24 pb-12 sm:pt-28 sm:pb-10 md:pt-32 md:pb-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="mb-6 sm:mb-8 text-center">
-            <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#5a2a0f] tracking-wide">
-              {category.name}
-            </h2>
-            {category.description && (
-              <p className="mt-2 text-gray-600">{category.description}</p>
-            )}
-          </div>
+      <section className="bg-[#f4f1ee] min-h-screen pt-24">
 
-          <div className="bg-white rounded-xl shadow-sm border border-[#e5ddd5] p-4 sm:p-5 mb-6 sm:mb-8">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-[#3b1f0f]">
-                <span className="font-semibold">Filter:</span>
-                <button className="px-3 py-1 rounded-lg border border-gray-300 hover:bg-gray-100 transition">
-                  Availability ▾
-                </button>
-                <button className="px-3 py-1 rounded-lg border border-gray-300 hover:bg-gray-100 transition">
-                  Price ▾
-                </button>
-              </div>
-              <div className="flex items-center justify-between sm:justify-end gap-4 text-xs sm:text-sm text-[#3b1f0f]">
-                <div className="text-gray-500">
-                  <span>Loading products...</span>
-                </div>
-                <button className="px-3 py-1 rounded-lg border border-gray-300 hover:bg-gray-100 transition">
-                  Sort by: Featured ▾
-                </button>
+        {/* 🔥 CATEGORY HERO (DATA USED PROPERLY) */}
+        <div className="bg-white border-b">
+          <div className="max-w-7xl mx-auto px-4 py-10 grid md:grid-cols-2 gap-6 items-center">
+
+            {/* LEFT CONTENT */}
+            <div>
+              <h1 className="text-3xl md:text-5xl font-bold text-[#5a2a0f]">
+                {category.name}
+              </h1>
+
+              {category.description && (
+                <p className="mt-4 text-gray-600 leading-relaxed">
+                  {category.description}
+                </p>
+              )}
+
+              {/* SMALL INFO BADGE */}
+              <div className="mt-4 flex gap-3 text-sm">
+                <span className="bg-[#5a2a0f]/10 text-[#5a2a0f] px-3 py-1 rounded-full">
+                  Premium Quality
+                </span>
+                <span className="bg-gray-100 px-3 py-1 rounded-full">
+                  Fast Delivery
+                </span>
               </div>
             </div>
-          </div>
 
-          <ProductsGrid category={type} type={null} />
+            {/* RIGHT SIDE (STATIC VISUAL BLOCK) */}
+            <div className="hidden md:block bg-[#eaddd1] rounded-xl h-40 flex items-center justify-center text-[#5a2a0f] font-semibold">
+              {category.name} Collection
+            </div>
+
+          </div>
         </div>
+
+        {/* 🔥 CONTROL BAR */}
+        <div className="bg-white border-b sticky top-20 z-10">
+          <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+
+            {/* LEFT INFO */}
+            <div className="text-sm text-gray-600">
+              Explore all {category.name} products
+            </div>
+
+            {/* RIGHT ACTIONS */}
+            <div className="flex flex-wrap gap-2 text-sm">
+
+              <button className="px-4 py-1.5 border rounded-md hover:bg-gray-100">
+                Availability
+              </button>
+
+              <button className="px-4 py-1.5 border rounded-md hover:bg-gray-100">
+                Price
+              </button>
+
+              <button className="px-4 py-1.5 border rounded-md hover:bg-gray-100">
+                Sort: Featured
+              </button>
+
+            </div>
+
+          </div>
+        </div>
+
+        {/* 🔥 MAIN CONTENT */}
+        <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-12 gap-6">
+
+          {/* SIDEBAR (STRUCTURED FILTER) */}
+          <aside className="col-span-12 md:col-span-3">
+
+            <div className="bg-white border rounded-xl p-5 space-y-6">
+
+              {/* CATEGORY INFO */}
+              <div>
+                <h3 className="font-semibold text-[#5a2a0f] mb-2">
+                  About {category.name}
+                </h3>
+                <p className="text-sm text-gray-500 line-clamp-4">
+                  {category.description || "No description available."}
+                </p>
+              </div>
+
+              {/* FILTER BLOCK */}
+              <div>
+                <h4 className="font-medium text-gray-700 mb-2">Filters</h4>
+
+                <div className="space-y-2 text-sm">
+                  <button className="block w-full text-left hover:text-black text-gray-600">
+                    In Stock
+                  </button>
+                  <button className="block w-full text-left hover:text-black text-gray-600">
+                    Price Range
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </aside>
+
+          {/* PRODUCT AREA */}
+          <main className="col-span-12 md:col-span-9">
+
+            {/* TITLE ROW */}
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold text-gray-800">
+                All Products
+              </h2>
+            </div>
+
+            {/* PRODUCT GRID */}
+            <ProductsGrid category={type} type={null} />
+
+          </main>
+
+        </div>
+
       </section>
     );
   }
 
+  // ===== FALLBACK SAME LOGIC =====
   const getCategoryParams = (productType) => {
     switch (productType) {
       case "bestseller":
@@ -93,53 +178,30 @@ export default async function ProductPage({ params }) {
   }
 
   return (
-    <section className="bg-[#f4f1ee] min-h-screen pt-24 pb-12 sm:pt-28 sm:pb-10 md:pt-32 md:pb-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <section className="bg-[#f4f1ee] min-h-screen pt-24">
 
-        {/* PAGE TITLE */}
-        <div className="mb-6 sm:mb-8 text-center">
-          <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#5a2a0f] tracking-wide">
+      {/* SIMPLE HEADER */}
+      <div className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <h1 className="text-3xl font-bold text-[#5a2a0f]">
             {type.replace("-", " ").toUpperCase()}
-          </h2>
+          </h1>
         </div>
+      </div>
 
-        {/* FILTER + SORT BAR */}
-        <div className="bg-white rounded-xl shadow-sm border border-[#e5ddd5] p-4 sm:p-5 mb-6 sm:mb-8">
+      {/* GRID */}
+      <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-12 gap-6">
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <aside className="col-span-12 md:col-span-3 bg-white border rounded-xl p-5">
+          Filters
+        </aside>
 
-            {/* Filter Section */}
-            <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-[#3b1f0f]">
-              <span className="font-semibold">Filter:</span>
-
-              <button className="px-3 py-1 rounded-lg border border-gray-300 hover:bg-gray-100 transition">
-                Availability ▾
-              </button>
-
-              <button className="px-3 py-1 rounded-lg border border-gray-300 hover:bg-gray-100 transition">
-                Price ▾
-              </button>
-            </div>
-
-            {/* Sort Section */}
-            <div className="flex items-center justify-between sm:justify-end gap-4 text-xs sm:text-sm text-[#3b1f0f]">
-              <div className="text-gray-500">
-                {/* Product count will be shown by the grid component */}
-                <span>Loading products...</span>
-              </div>
-
-              <button className="px-3 py-1 rounded-lg border border-gray-300 hover:bg-gray-100 transition">
-                Sort by: Featured ▾
-              </button>
-            </div>
-
-          </div>
-        </div>
-
-        {/* PRODUCT GRID - Fetches from API */}
-        <ProductsGrid category={hasValidCategory ? cat : null} type={productType} />
+        <main className="col-span-12 md:col-span-9">
+          <ProductsGrid category={hasValidCategory ? cat : null} type={productType} />
+        </main>
 
       </div>
+
     </section>
   );
 }
